@@ -1,4 +1,6 @@
-package ru.mts.homework3;
+package ru.mts.homework3.service;
+
+import ru.mts.homework3.factory.OneRandomAnimal;
 
 public class CreateAnimalServiceImpl implements CreateAnimalService {
 
@@ -14,6 +16,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
             OneRandomAnimal oneRandomAnimal = new OneRandomAnimal();
             oneRandomAnimal.creation();
             i++;
+
             System.out.println();
         } while (i < 10);
     }
@@ -26,6 +29,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
             System.out.println(i + 1 + " animal:");
             OneRandomAnimal oneRandomAnimal = new OneRandomAnimal();
             oneRandomAnimal.creation();
+
             System.out.println();
         }
     }
@@ -38,6 +42,8 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         System.out.println("The only animal:");
         OneRandomAnimal oneRandomAnimal = new OneRandomAnimal();
         oneRandomAnimal.creation();
+
         System.out.println();
     }
+
 }
