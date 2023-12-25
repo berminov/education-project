@@ -14,7 +14,6 @@ public interface CreateAnimalService {
             OneRandomAnimal oneRandomAnimal = new OneRandomAnimal();
             oneRandomAnimal.creation();
             i++;
-
             System.out.println();
         }
     }

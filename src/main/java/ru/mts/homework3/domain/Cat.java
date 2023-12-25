@@ -13,4 +13,9 @@ public class Cat extends Pet {
         System.out.println(name + " plays with a ball");
     }
 
+    @Override
+    public void sound() {
+        System.out.println("meow");
+    }
+
 }

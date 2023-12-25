@@ -21,6 +21,7 @@ public abstract class AbstractAnimal implements Animal {
                 '}';
     }
 
+    @Override
     public void setBreed(String breed) {
         this.breed = breed;
     }

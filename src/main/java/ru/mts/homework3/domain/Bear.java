@@ -13,4 +13,8 @@ public class Bear extends Predator {
         System.out.println(name + " hunts alone");
     }
 
+    @Override
+    public void sound() {
+        System.out.println("rrrrrr");
+    }
 }

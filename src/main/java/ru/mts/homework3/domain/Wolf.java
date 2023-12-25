@@ -13,4 +13,8 @@ public class Wolf extends Predator {
         System.out.println("Wolf " + getName() + " howls at the moon");
     }
 
+    @Override
+    public void sound() {
+        System.out.println("Wooooooooo");
+    }
 }

@@ -9,4 +9,8 @@ public class Parrot extends Pet {
         System.out.println(getName() + " likes to sing");
     }
 
+    @Override
+    public void sound() {
+        System.out.println("Hello niggas");
+    }
 }
