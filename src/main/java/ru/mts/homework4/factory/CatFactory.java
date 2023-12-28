@@ -1,7 +1,7 @@
-package ru.mts.homework3.factory;
+package ru.mts.homework4.factory;
 
-import ru.mts.homework3.domain.Cat;
-import ru.mts.homework3.domain.abstraction.Animal;
+import ru.mts.homework4.domain.Cat;
+import ru.mts.homework4.domain.abstraction.Animal;
 
 public class CatFactory implements AnimalFactory{
     @Override

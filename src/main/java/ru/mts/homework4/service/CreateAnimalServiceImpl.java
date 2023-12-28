@@ -1,6 +1,10 @@
-package ru.mts.homework3.service;
+package ru.mts.homework4.service;
 
-import ru.mts.homework3.factory.OneRandomAnimal;
+import ru.mts.homework4.domain.abstraction.Animal;
+import ru.mts.homework4.factory.OneRandomAnimal;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreateAnimalServiceImpl implements CreateAnimalService {
 
@@ -9,41 +13,39 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
      * CreateAnimalService
      */
     @Override
-    public void createTenAnimals() {
+    public List<Animal> createTenAnimals() {
+        List<Animal> animalArray = new ArrayList<>();
         int i = 0;
         do {
-            System.out.println(i + 1 + " animal:");
             OneRandomAnimal oneRandomAnimal = new OneRandomAnimal();
-            oneRandomAnimal.creation();
+            animalArray.add(oneRandomAnimal.creation());
             i++;
-
-            System.out.println();
         } while (i < 10);
+        return animalArray;
     }
 
     /**
      * Метод createNAnimal создаёт n уникальных животных
      */
-    public void createNAnimal(int n) {
+    public List<Animal> createNAnimal(int n) {
+        List<Animal> animalArray = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             System.out.println(i + 1 + " animal:");
             OneRandomAnimal oneRandomAnimal = new OneRandomAnimal();
-            oneRandomAnimal.creation();
+            animalArray.add(oneRandomAnimal.creation());
 
-            System.out.println();
         }
+        return animalArray;
     }
 
     /**
      * В случае, если параметр n, не был передан метод createNAnimal создает
      * одно уникальное животное
      */
-    public void createNAnimal() {
-        System.out.println("The only animal:");
+    public List<Animal> createNAnimal() {
+        List<Animal> animalArray = new ArrayList<>();
         OneRandomAnimal oneRandomAnimal = new OneRandomAnimal();
-        oneRandomAnimal.creation();
-
-        System.out.println();
+        animalArray.add(oneRandomAnimal.creation());
+        return animalArray;
     }
-
 }

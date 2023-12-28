@@ -1,6 +1,6 @@
-package ru.mts.homework3.domain;
+package ru.mts.homework4.domain;
 
-import ru.mts.homework3.domain.abstraction.Predator;
+import ru.mts.homework4.domain.abstraction.Predator;
 
 public class Bear extends Predator {
 

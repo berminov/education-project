@@ -1,6 +1,6 @@
-package ru.mts.homework3.domain;
+package ru.mts.homework4.domain;
 
-import ru.mts.homework3.domain.abstraction.Pet;
+import ru.mts.homework4.domain.abstraction.Pet;
 
 public class Cat extends Pet {
 
@@ -17,5 +17,4 @@ public class Cat extends Pet {
     public void sound() {
         System.out.println("meow");
     }
-
 }
