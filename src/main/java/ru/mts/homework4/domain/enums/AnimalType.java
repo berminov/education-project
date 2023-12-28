@@ -1,4 +1,6 @@
-package ru.mts.homework4.factory;
+package ru.mts.homework4.domain.enums;
+
+import ru.mts.homework4.factory.*;
 
 import java.util.List;
 

@@ -1,8 +1,10 @@
 package ru.mts.homework4.domain;
 
+import ru.mts.homework4.domain.abstraction.HasBreedType;
 import ru.mts.homework4.domain.abstraction.Pet;
+import ru.mts.homework4.domain.enums.CatBreed;
 
-public class Cat extends Pet {
+public class Cat extends Pet implements HasBreedType {
 
     @Override
     public void whatLikes() {
@@ -16,6 +18,16 @@ public class Cat extends Pet {
     @Override
     public void sound() {
         System.out.println("meow");
+    }
+
+    @Override
+    public CatBreed getBreedType() {
+        return CatBreed.fromBreed(breed);
+    }
+
+    @Override
+    public Class<?> getEnumClass() {
+        return CatBreed.class;
     }
 
 }
