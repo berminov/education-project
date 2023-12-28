@@ -17,4 +17,5 @@ public class Wolf extends Predator {
     public void sound() {
         System.out.println("Wooooooooo");
     }
+
 }

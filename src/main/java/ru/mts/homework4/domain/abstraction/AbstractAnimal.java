@@ -16,11 +16,11 @@ public abstract class AbstractAnimal implements Animal {
     public String toString() {
         return getClass().getSimpleName() +
                 "{" +
-                "breed='" + breed + '\'' +
-                ", name='" + name + '\'' +
-                ", cost=" + cost +
-                ", character='" + character + '\'' +
-                ", birthDate=" + birthDate +
+                "breed='" + getBreed() + '\'' +
+                ", name='" + getName() + '\'' +
+                ", cost=" + (Objects.isNull(getCost()) ? "null" : getCost().toPlainString()) +
+                ", character='" + getCharacter() + '\'' +
+                ", birthDate=" + (Objects.isNull(getBirthDate()) ? "null" : String.format("%1$td-%1$tm-%1$tY", getBirthDate())) +
                 '}';
     }
 
@@ -74,15 +74,24 @@ public abstract class AbstractAnimal implements Animal {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         AbstractAnimal that = (AbstractAnimal) o;
-        return Objects.equals(breed, that.breed) && Objects.equals(name, that.name) && Objects.equals(cost, that.cost)
-                && Objects.equals(character, that.character) && Objects.equals(birthDate, that.birthDate);
+
+        return Objects.equals(breed, that.breed)
+                && Objects.equals(name, that.name)
+                && Objects.equals(character, that.character)
+                && Objects.equals(birthDate, that.birthDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(breed, name, cost, character, birthDate);
+        return Objects.hash(breed, name, character, birthDate);
     }
+
 }

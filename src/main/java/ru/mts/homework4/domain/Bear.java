@@ -17,4 +17,5 @@ public class Bear extends Predator {
     public void sound() {
         System.out.println("rrrrrr");
     }
+
 }

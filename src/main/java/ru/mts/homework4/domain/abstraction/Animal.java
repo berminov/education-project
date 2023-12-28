@@ -64,5 +64,7 @@ public interface Animal {
      * даты рождения животного
      */
     void setBirthDate(LocalDate birthDate);
+
     void sound();
+
 }

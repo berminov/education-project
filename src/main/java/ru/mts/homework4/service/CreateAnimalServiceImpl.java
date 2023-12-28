@@ -1,12 +1,19 @@
 package ru.mts.homework4.service;
 
 import ru.mts.homework4.domain.abstraction.Animal;
-import ru.mts.homework4.factory.OneRandomAnimal;
+import ru.mts.homework4.factory.AnimalFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CreateAnimalServiceImpl implements CreateAnimalService {
+
+    private final AnimalFactory animalFactory;
+
+    public CreateAnimalServiceImpl(AnimalFactory animalFactory) {
+        this.animalFactory = animalFactory;
+    }
 
     /**
      * Методо createTenAnimals переопределяет default метод интерфейса
@@ -15,12 +22,13 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
     @Override
     public List<Animal> createTenAnimals() {
         List<Animal> animalArray = new ArrayList<>();
+
         int i = 0;
         do {
-            OneRandomAnimal oneRandomAnimal = new OneRandomAnimal();
-            animalArray.add(oneRandomAnimal.creation());
+            animalArray.add(animalFactory.createAnimal());
             i++;
         } while (i < 10);
+
         return animalArray;
     }
 
@@ -31,10 +39,9 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         List<Animal> animalArray = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             System.out.println(i + 1 + " animal:");
-            OneRandomAnimal oneRandomAnimal = new OneRandomAnimal();
-            animalArray.add(oneRandomAnimal.creation());
-
+            animalArray.add(animalFactory.createAnimal());
         }
+
         return animalArray;
     }
 
@@ -43,9 +50,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
      * одно уникальное животное
      */
     public List<Animal> createNAnimal() {
-        List<Animal> animalArray = new ArrayList<>();
-        OneRandomAnimal oneRandomAnimal = new OneRandomAnimal();
-        animalArray.add(oneRandomAnimal.creation());
-        return animalArray;
+        return Collections.singletonList(animalFactory.createAnimal());
     }
+
 }
