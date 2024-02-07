@@ -16,7 +16,6 @@ public class ParrotTest {
     @Test
     @DisplayName("Тест: equals for Parrot")
     void testEqualsParrot() {
-
         Parrot parrot1 = new Parrot();
         Parrot parrot2 = new Parrot();
         Parrot parrot3 = new Parrot();

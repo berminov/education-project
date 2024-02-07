@@ -15,7 +15,6 @@ public class WolfTest {
     @Test
     @DisplayName("Тест: equals for Wolf")
     void testEqualsWolf() {
-
         Wolf wolf1 = new Wolf();
         Wolf wolf2 = new Wolf();
         Wolf wolf3 = new Wolf();

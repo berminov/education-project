@@ -15,7 +15,6 @@ public class CatTest {
     @Test
     @DisplayName("Тест: equals for Cat")
     void testEqualsCat(){
-
         Cat cat1 = new Cat();
         Cat cat2 = new Cat();
         Cat cat3 = new Cat();
