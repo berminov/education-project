@@ -21,7 +21,7 @@ public interface SearchService {
     /**
      * Метод findDuplicates выводит дубликаты животных
      */
-    void findDuplicates(List<Animal> animals);
+    List<Animal> findDuplicates(List<Animal> animals);
 
     /**
      * Метод isBirthDateAnimalLeapYear проверяет, является ли
@@ -42,4 +42,5 @@ public interface SearchService {
      */
     boolean isContainsDuplicates(List<Animal> animals);
 
+    void printDuplicates(List<Animal> animals);
 }

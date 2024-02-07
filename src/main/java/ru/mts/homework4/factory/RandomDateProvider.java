@@ -13,5 +13,4 @@ public class RandomDateProvider {
 
         return LocalDate.ofEpochDay(randomDay);
     }
-
 }

@@ -80,7 +80,12 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public void findDuplicates(List<Animal> animals) {
+    public void printDuplicates(List<Animal> mainList) {
+        System.out.println(findDuplicates(mainList));
+    }
+
+    @Override
+    public List<Animal> findDuplicates(List<Animal> animals) {
         Set<Animal> uniqueAnimals = new HashSet<>();
         Set<Animal> duplicates = new LinkedHashSet<>();
 
@@ -90,10 +95,8 @@ public class SearchServiceImpl implements SearchService {
             } else {
                 uniqueAnimals.add(value);
             }
-
         }
-
-        System.out.println(duplicates);
+        return new ArrayList<>(duplicates);
     }
 
     @Override
@@ -114,5 +117,4 @@ public class SearchServiceImpl implements SearchService {
         return Objects.nonNull(animal)
                 && Objects.nonNull(animal.getBirthDate());
     }
-
 }

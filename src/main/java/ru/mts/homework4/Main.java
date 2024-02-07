@@ -31,7 +31,7 @@ public class Main {
             System.out.println(leapYearNames);
         }
 
-        int age = 10;
+        int age = 5;
         List<Animal> olderAnimals = search.findOlderAnimals(mainList, age);
         if (olderAnimals.isEmpty()) {
             System.out.println("Animals older than " + age);
@@ -40,13 +40,13 @@ public class Main {
             System.out.println("No animals older than " + age);
         }
 
+
         if (search.isContainsDuplicates(mainList)) {
             System.out.println("Duplicates");
-            search.findDuplicates(mainList);
+            search.printDuplicates(mainList);
         } else {
             System.out.println("No duplicates");
         }
-
     }
 
     private static CreateAnimalService createAnimalService() {

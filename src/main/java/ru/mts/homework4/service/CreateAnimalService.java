@@ -35,7 +35,5 @@ public interface CreateAnimalService {
         public static AnimalFactory createAnimalFactory() {
             return new RandomAnimalFactory(new ReflectionAnimalAbstractFactory());
         }
-
     }
-
 }

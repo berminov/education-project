@@ -2,6 +2,8 @@ package ru.mts.homework4.domain;
 
 import ru.mts.homework4.domain.abstraction.Predator;
 
+import java.time.LocalDate;
+
 public class Bear extends Predator {
 
     public void hibernate() {

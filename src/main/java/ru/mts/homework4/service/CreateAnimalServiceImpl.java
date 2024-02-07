@@ -52,5 +52,4 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
     public List<Animal> createNAnimal() {
         return Collections.singletonList(animalFactory.createAnimal());
     }
-
 }

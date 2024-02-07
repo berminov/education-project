@@ -12,6 +12,17 @@ public abstract class AbstractAnimal implements Animal {
     protected String character;    // характер
     protected LocalDate birthDate; // дата рождения
 
+    public AbstractAnimal() {
+    }
+
+    public AbstractAnimal(String breed, String name, BigDecimal cost, String character, LocalDate birthDate) {
+        this.breed = breed;
+        this.name = name;
+        this.cost = cost;
+        this.character = character;
+        this.birthDate = birthDate;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() +

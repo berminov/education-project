@@ -24,7 +24,5 @@ public class ReflectionAnimalAbstractFactory implements AnimalAbstractFactory {
 
             throw new RuntimeException(e);
         }
-
     }
-
 }
