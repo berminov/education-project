@@ -18,6 +18,10 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     private List<Animal> animals;
 
+    public void setAnimals(List<Animal> animals) {
+        this.animals = animals;
+    }
+
     @PostConstruct
     public void init() {
         animals = createAnimalService.createTenAnimals();

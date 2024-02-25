@@ -1,13 +1,15 @@
-package ru.mts.homework4.service;
+package ru.mts.homework6.service;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.mts.homework4.domain.Bear;
-import ru.mts.homework4.domain.Cat;
-import ru.mts.homework4.domain.Parrot;
-import ru.mts.homework4.domain.abstraction.AbstractAnimal;
-import ru.mts.homework4.domain.abstraction.Animal;
+import ru.mts.homework6.domain.Bear;
+import ru.mts.homework6.domain.Cat;
+import ru.mts.homework6.domain.Parrot;
+import ru.mts.homework6.domain.abstraction.AbstractAnimal;
+import ru.mts.homework6.domain.abstraction.Animal;
+import ru.mts.homework6.repository.AnimalsRepository;
+import ru.mts.homework6.repository.AnimalsRepositoryImpl;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,19 +17,14 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class SearchServiceImplTest {
+class AnimalsRepositoryImplTest {
 
-    private final static SearchService search = new SearchServiceImpl();
+    private final static AnimalsRepository search = new AnimalsRepositoryImpl(new CreateAnimalServiceImpl());
     private final static List<Animal> animals = new ArrayList<>();
-    ;
     private final static AbstractAnimal animal1 = new Bear();
-    ;
     private final static AbstractAnimal animal2 = new Parrot();
-    ;
     private final static AbstractAnimal animal3 = new Cat();
-    ;
     private final static AbstractAnimal twin = new Cat();
-    ;
 
     @BeforeAll
     public static void arrayCreation() {
@@ -56,6 +53,8 @@ class SearchServiceImplTest {
         animals.add(animal2);
         animals.add(animal3);
         animals.add(twin);
+
+        search.setAnimals(animals);
     }
 
     @Test
@@ -66,7 +65,7 @@ class SearchServiceImplTest {
         expected.add(animal1.getName());
         expected.add(animal2.getName());
 
-        List<String> result = search.findLeapYearNames(animals);
+        List<String> result = search.findLeapYearNames();
 
         assertEquals(expected, result);
     }
@@ -79,7 +78,7 @@ class SearchServiceImplTest {
         int age = 10;
         expected.add(animal1);
 
-        List<Animal> result = search.findOlderAnimals(animals, age);
+        List<Animal> result = search.findOlderAnimals(age);
 
         assertEquals(expected, result);
     }
@@ -91,7 +90,7 @@ class SearchServiceImplTest {
         List<Animal> expected = new ArrayList<>();
         expected.add(twin);
 
-        List<Animal> result = search.findDuplicates(animals);
+        List<Animal> result = search.findDuplicates();
 
         assertEquals(expected, result);
     }

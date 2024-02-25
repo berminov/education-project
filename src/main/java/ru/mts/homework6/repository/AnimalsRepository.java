@@ -43,4 +43,6 @@ public interface AnimalsRepository {
     boolean isContainsDuplicates();
 
     void printDuplicates();
+
+    void setAnimals(List<Animal> animals);
 }

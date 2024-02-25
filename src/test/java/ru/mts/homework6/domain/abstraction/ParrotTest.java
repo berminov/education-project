@@ -1,8 +1,8 @@
-package ru.mts.homework4.domain.abstraction;
+package ru.mts.homework6.domain.abstraction;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.mts.homework4.domain.Parrot;
+import ru.mts.homework6.domain.Parrot;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
