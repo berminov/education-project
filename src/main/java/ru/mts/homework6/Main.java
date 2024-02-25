@@ -1,0 +1,55 @@
+package ru.mts.homework6;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import ru.mts.homework6.domain.abstraction.Animal;
+import ru.mts.homework6.repository.AnimalsRepository;
+
+import java.util.List;
+
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
+                SpringConfig.class
+        );
+
+        AnimalsRepository animalsRepository = context.getBean(AnimalsRepository.class);
+
+//        CreateAnimalService createAnimalService = createAnimalService();
+//        List<Animal> mainList = createAnimalService.createTenAnimals();
+
+        //SearchService search = new SearchServiceImpl();
+
+        List<String> leapYearNames = animalsRepository.findLeapYearNames();
+        if (leapYearNames.isEmpty()) {
+            System.out.println("No animals with leap years' birthdays");
+        } else {
+            System.out.println("Names of animals with leap years' birthdays");
+            System.out.println(leapYearNames);
+        }
+
+        int age = 5;
+        List<Animal> olderAnimals = animalsRepository.findOlderAnimals(age);
+        if (olderAnimals.isEmpty()) {
+            System.out.println("Animals older than " + age);
+            System.out.println(olderAnimals);
+        } else {
+            System.out.println("No animals older than " + age);
+        }
+
+
+        if (animalsRepository.isContainsDuplicates()) {
+            System.out.println("Duplicates");
+            animalsRepository.printDuplicates();
+        } else {
+            System.out.println("No duplicates");
+        }
+    }
+
+//    private static CreateAnimalService createAnimalService() {
+//        return new CreateAnimalServiceImpl(new RandomAnimalFactory(new ReflectionAnimalAbstractFactory()));
+//    }
+
+}
