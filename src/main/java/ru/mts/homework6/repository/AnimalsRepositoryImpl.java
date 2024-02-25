@@ -2,10 +2,7 @@ package ru.mts.homework6.repository;
 
 import org.apache.commons.lang3.StringUtils;
 import ru.mts.homework6.domain.abstraction.Animal;
-import ru.mts.homework6.factory.RandomAnimalFactory;
-import ru.mts.homework6.factory.ReflectionAnimalAbstractFactory;
 import ru.mts.homework6.service.CreateAnimalService;
-import ru.mts.homework6.service.CreateAnimalServiceImpl;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
@@ -13,20 +10,17 @@ import java.util.*;
 
 public class AnimalsRepositoryImpl implements AnimalsRepository {
 
-    private List<Animal> mainList;
+    private final CreateAnimalService createAnimalService;
 
-    public void setMainList(List<Animal> mainList) {
-        this.mainList = mainList;
+    public AnimalsRepositoryImpl(CreateAnimalService createAnimalService) {
+        this.createAnimalService = createAnimalService;
     }
+
+    private List<Animal> animals;
 
     @PostConstruct
     public void init() {
-        CreateAnimalService createAnimalService = createAnimalService();
-        setMainList(createAnimalService.createTenAnimals());
-    }
-
-    private static CreateAnimalService createAnimalService() {
-        return new CreateAnimalServiceImpl(new RandomAnimalFactory(new ReflectionAnimalAbstractFactory()));
+        animals = createAnimalService.createTenAnimals();
     }
 
     @Override
@@ -34,7 +28,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         List<String> result = new ArrayList<>();
 
         String name;
-        for (var value : mainList) {
+        for (var value : animals) {
             if (isBirthDateAnimalLeapYear(value)) {
 
                 name = value.getName();
@@ -44,7 +38,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
             }
         }
-
         if (result.isEmpty()) {
             System.out.println("No animals with leap birth year");
         }
@@ -73,7 +66,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
 
         List<Animal> olderAnimals = new ArrayList<>();
-        for (var value : mainList) {
+        for (var value : animals) {
             if (isAnimalAndBirthDateNonNull(value)
                     && (value.getBirthDate().toEpochDay() < dateThen.toEpochDay())) {
 
@@ -89,7 +82,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         var now = LocalDate.now();
         var dateThen = now.minusYears(n);
 
-        for (var value : mainList) {
+        for (var value : animals) {
             if (isAnimalAndBirthDateNonNull(value)
                     && (value.getBirthDate().toEpochDay() < dateThen.toEpochDay())) {
 
@@ -111,7 +104,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         Set<Animal> uniqueAnimals = new HashSet<>();
         Set<Animal> duplicates = new LinkedHashSet<>();
 
-        for (var value : mainList) {
+        for (var value : animals) {
             if (uniqueAnimals.contains(value)) {
                 duplicates.add(value);
             } else {
@@ -124,7 +117,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     @Override
     public boolean isContainsDuplicates() {
         Set<Animal> uniqueAnimals = new HashSet<>();
-        for (var value : mainList) {
+        for (var value : animals) {
             //very good ;)
             if (!uniqueAnimals.add(value)) {
                 return true;

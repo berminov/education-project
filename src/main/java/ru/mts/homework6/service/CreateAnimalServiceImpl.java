@@ -1,19 +1,13 @@
 package ru.mts.homework6.service;
 
 import ru.mts.homework6.domain.abstraction.Animal;
-import ru.mts.homework6.factory.AnimalFactory;
+import ru.mts.homework6.factory.OneRandomAnimal;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class CreateAnimalServiceImpl implements CreateAnimalService {
-
-    private final AnimalFactory animalFactory;
-
-    public CreateAnimalServiceImpl(AnimalFactory animalFactory) {
-        this.animalFactory = animalFactory;
-    }
 
     /**
      * Методо createTenAnimals переопределяет default метод интерфейса
@@ -25,7 +19,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
 
         int i = 0;
         do {
-            animalArray.add(animalFactory.createAnimal());
+            animalArray.add(OneRandomAnimal.createAnimal());
             i++;
         } while (i < 10);
 
@@ -39,7 +33,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         List<Animal> animalArray = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             System.out.println(i + 1 + " animal:");
-            animalArray.add(animalFactory.createAnimal());
+            animalArray.add(OneRandomAnimal.createAnimal());
         }
 
         return animalArray;
@@ -50,6 +44,6 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
      * одно уникальное животное
      */
     public List<Animal> createNAnimal() {
-        return Collections.singletonList(animalFactory.createAnimal());
+        return Collections.singletonList(OneRandomAnimal.createAnimal());
     }
 }

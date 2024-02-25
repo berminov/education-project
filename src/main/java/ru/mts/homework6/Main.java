@@ -17,11 +17,6 @@ public class Main {
 
         AnimalsRepository animalsRepository = context.getBean(AnimalsRepository.class);
 
-//        CreateAnimalService createAnimalService = createAnimalService();
-//        List<Animal> mainList = createAnimalService.createTenAnimals();
-
-        //SearchService search = new SearchServiceImpl();
-
         List<String> leapYearNames = animalsRepository.findLeapYearNames();
         if (leapYearNames.isEmpty()) {
             System.out.println("No animals with leap years' birthdays");
@@ -33,10 +28,11 @@ public class Main {
         int age = 5;
         List<Animal> olderAnimals = animalsRepository.findOlderAnimals(age);
         if (olderAnimals.isEmpty()) {
+            System.out.println("No animals older than " + age);
+
+        } else {
             System.out.println("Animals older than " + age);
             System.out.println(olderAnimals);
-        } else {
-            System.out.println("No animals older than " + age);
         }
 
 
@@ -47,9 +43,4 @@ public class Main {
             System.out.println("No duplicates");
         }
     }
-
-//    private static CreateAnimalService createAnimalService() {
-//        return new CreateAnimalServiceImpl(new RandomAnimalFactory(new ReflectionAnimalAbstractFactory()));
-//    }
-
 }
