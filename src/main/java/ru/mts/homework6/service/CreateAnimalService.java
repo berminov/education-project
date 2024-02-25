@@ -8,6 +8,10 @@ import java.util.List;
 
 public interface CreateAnimalService {
 
+    void setAnimalType(String type);
+
+    String getAnimalType();
+
     /**
      * Метод createTenAnimal создаёт 10 животных, используя цикл while
      */
