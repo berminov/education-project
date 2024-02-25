@@ -9,6 +9,16 @@ import java.util.List;
 
 public class CreateAnimalServiceImpl implements CreateAnimalService {
 
+    private String animalType;
+
+    public String getAnimalType() {
+        return animalType;
+    }
+
+    public void setAnimalType(String animalType) {
+        this.animalType = animalType;
+    }
+
     /**
      * Методо createTenAnimals переопределяет default метод интерфейса
      * CreateAnimalService

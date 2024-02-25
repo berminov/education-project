@@ -1,12 +1,13 @@
 package ru.mts.homework6;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import ru.mts.homework6.domain.abstraction.Animal;
 import ru.mts.homework6.repository.AnimalsRepository;
 
 import java.util.List;
 
-
+@ComponentScan("ru.mts")
 public class Main {
 
     public static void main(String[] args) {
@@ -14,7 +15,6 @@ public class Main {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
                 SpringConfig.class
         );
-
         AnimalsRepository animalsRepository = context.getBean(AnimalsRepository.class);
 
         List<String> leapYearNames = animalsRepository.findLeapYearNames();
