@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class CreateAnimalServiceImpl implements CreateAnimalService {
 
-    @Value("${names}")
+    @Value("${names.bear}")
     private String[] names;
 
     private String animalType;
