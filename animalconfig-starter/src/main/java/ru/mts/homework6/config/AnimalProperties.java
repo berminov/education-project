@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "animal")
+@ConfigurationProperties(prefix = "animal.names")
 public class AnimalProperties {
 
     private String[] bearNames;

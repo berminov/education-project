@@ -24,7 +24,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     @PostConstruct
     public void init() {
-        animals = createAnimalService.createTenAnimals();
+        animals = createAnimalService.createAnimals(10);
     }
 
     @Override
