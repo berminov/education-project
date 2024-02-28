@@ -7,8 +7,6 @@ import ru.mts.homework6.domain.Bear;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class BearTest {
 
     @Test

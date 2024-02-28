@@ -14,13 +14,9 @@ import ru.mts.homework6.service.CreateAnimalServiceImpl;
 public class SpringConfig {
 
     @Bean
-    public AnimalsRepository animalsRepository() {
-        return new AnimalsRepositoryImpl(createAnimalService());
+    public AnimalsRepository animalsRepository(CreateAnimalService createAnimalService) {
+        return new AnimalsRepositoryImpl(createAnimalService);
     }
 
-    @Bean
-    @Scope("prototype")
-    public CreateAnimalService createAnimalService() {
-        return new CreateAnimalServiceImpl();
-    }
+
 }
