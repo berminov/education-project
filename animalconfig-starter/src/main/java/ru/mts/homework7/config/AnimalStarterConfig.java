@@ -1,0 +1,18 @@
+package ru.mts.homework7.config;
+
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import ru.mts.homework7.service.CreateAnimalService;
+import ru.mts.homework7.service.CreateAnimalServiceImpl;
+
+@Configuration
+@EnableAutoConfiguration
+public class AnimalStarterConfig {
+    @Bean
+    @Scope("prototype")
+    public CreateAnimalService createAnimalService() {
+        return new CreateAnimalServiceImpl();
+    }
+}
