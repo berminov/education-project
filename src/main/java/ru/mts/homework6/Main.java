@@ -1,17 +1,20 @@
 package ru.mts.homework6;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import ru.mts.homework6.domain.abstraction.Animal;
 import ru.mts.homework6.repository.AnimalsRepository;
 
 import java.util.List;
-
+@SpringBootApplication
 @ComponentScan("ru.mts")
 public class Main {
 
     public static void main(String[] args) {
 
+        SpringApplication.run(Main.class, args);
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
                 SpringConfig.class
         );
@@ -34,7 +37,6 @@ public class Main {
             System.out.println("Animals older than " + age);
             System.out.println(olderAnimals);
         }
-
 
         if (animalsRepository.isContainsDuplicates()) {
             System.out.println("Duplicates");
