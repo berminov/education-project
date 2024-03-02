@@ -13,6 +13,9 @@ import java.util.Random;
 
 public class CreateAnimalServiceImpl implements CreateAnimalService {
 
+    @Autowired
+    private OneRandomAnimal oneRandomAnimal;
+
     private AnimalProperties animalProperties;
 
     @Autowired
@@ -38,7 +41,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         System.out.println(Arrays.toString(animalProperties.getAllNames()));
         List<Animal> animalArray = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            animalArray.add(OneRandomAnimal.createAnimal(getRandomName(animalProperties.getAllNames())));
+            animalArray.add(oneRandomAnimal.createAnimal(getRandomName(animalProperties.getAllNames())));
         }
         return animalArray;
     }

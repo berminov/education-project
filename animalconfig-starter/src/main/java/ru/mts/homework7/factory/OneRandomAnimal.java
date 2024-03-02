@@ -1,18 +1,29 @@
 package ru.mts.homework7.factory;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import ru.mts.homework7.config.AnimalProperties;
 import ru.mts.homework7.domain.abstraction.Animal;
 import ru.mts.homework7.domain.enums.AnimalType;
 import ru.mts.homework7.domain.enums.CharacterType;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
+import java.util.Arrays;
+@Component
 public class OneRandomAnimal {
-    public static Animal createAnimal(String name) {
+
+    @Autowired
+    private  AnimalProperties animalProperties;
+
+    public Animal createAnimal(String name) {
 
         AnimalFactory animalFactory = createByType();
         Animal animal = animalFactory.createAnimal();
+
+
+        System.out.println(Arrays.toString(animalProperties.getBearNames()));
 
         animal.setBirthDate(RandomDateProvider.createRandomDate());
         animal.setName(name);
@@ -23,11 +34,14 @@ public class OneRandomAnimal {
         return animal;
     }
 
-    private static AnimalFactory createByType() {
+    @Autowired
+    private BearFactory bearFactory;
+
+    private AnimalFactory createByType() {
         AnimalType rType = AnimalType.getRandomType();
         switch (rType) {
             case BEAR:
-                return new BearFactory();
+                return bearFactory;
             case WOLF:
                 return new WolfFactory();
             case CAT:
