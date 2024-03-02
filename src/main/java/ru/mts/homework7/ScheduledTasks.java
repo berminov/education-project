@@ -17,6 +17,7 @@ public class ScheduledTasks {
     public void setAnimalsRepository(AnimalsRepository animalsRepository) {
         this.animalsRepository = animalsRepository;
     }
+
     @Scheduled(fixedRate = 60000)
     public void animalTasks() {
 
