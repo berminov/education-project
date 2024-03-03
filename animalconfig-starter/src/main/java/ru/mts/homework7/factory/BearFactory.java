@@ -12,10 +12,15 @@ import java.util.Arrays;
 public class BearFactory implements AnimalFactory {
 
     private AnimalProperties animalProperties;
+    @Autowired
+    public void setAnimalProperties(AnimalProperties animalProperties) {
+        this.animalProperties = animalProperties;
+    }
+
     @Override
     public Bear createAnimal() {
-        //System.out.println(Arrays.toString(animalProperties.getBearNames()));
-        //System.out.println(Arrays.toString(names));
-        return new Bear();
+        Bear bear = new Bear();
+        bear.setName(RandomNameProvider.chooseRandomName(animalProperties.getBearNames()));
+        return bear;
     }
 }

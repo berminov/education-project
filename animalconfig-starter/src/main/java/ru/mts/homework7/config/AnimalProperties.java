@@ -11,15 +11,6 @@ public class AnimalProperties {
     private String[] catNames;
     private String[] parrotNames;
     private String[] wolfNames;
-    private String[] allNames;
-
-    public String[] getAllNames() {
-        return allNames;
-    }
-
-    public void setAllNames(String[] allNames) {
-        this.allNames = allNames;
-    }
 
     public String[] getBearNames() {
         return bearNames;
