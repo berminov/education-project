@@ -16,6 +16,10 @@ public class OneRandomAnimalTest {
     @Autowired
     private BearFactory bearFactory;
 
+    /**
+     * Тест bearNamesTest проверяет, что экземпляру класса Bear
+     * присваиваются имена bearNames, определенные в application.yml
+     */
     @Test
     void bearNamesTest() {
         Animal bear = bearFactory.createAnimal();

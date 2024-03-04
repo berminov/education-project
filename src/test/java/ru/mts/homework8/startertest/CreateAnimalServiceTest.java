@@ -21,8 +21,12 @@ public class CreateAnimalServiceTest {
     @Autowired
     private CreateAnimalServiceImpl createAnimalService;
 
+    /**
+     * Тест createNegativeNumberOfAnimalsTest тестирует работу метода
+     * createAnimals при передаче ему отрицательного значения
+     */
     @Test
-    void CreateNegativeNumberOfAnimal(){
+    void createNegativeNumberOfAnimalTest(){
         int negativeAge = -10;
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> {
@@ -32,15 +36,23 @@ public class CreateAnimalServiceTest {
         assertEquals("Number of animals should be positive", exception.getMessage());
     }
 
+    /**
+     * Тест createMultipleAnimalsTest тестирует правильность работы
+     * метода createAnimals
+     */
     @Test
-    void CreateMultipleAnimals() {
+    void createMultipleAnimalsTest() {
         int n = 10;
         List<Animal> animals = createAnimalService.createAnimals(n);
         assertEquals(n, animals.size());
     }
 
+    /**
+     * Тест setNegativePriceOfAnimalTest тестирует работу метода
+     * setPrice при передаче ему отрицательного значения
+     */
     @Test
-    void setNegativePriceOfAnimal(){
+    void setNegativePriceOfAnimalTest(){
         BigDecimal negativePrice = BigDecimal.valueOf(-10);
         Animal animal = new Cat();
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
@@ -48,7 +60,7 @@ public class CreateAnimalServiceTest {
                     animal.setCost(negativePrice);
                 });
 
-        assertEquals("Number of animals should be positive", exception.getMessage());
+        assertEquals("Price of animal should be positive", exception.getMessage());
     }
 }
 

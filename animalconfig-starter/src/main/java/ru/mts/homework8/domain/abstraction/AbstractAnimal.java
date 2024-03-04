@@ -58,7 +58,7 @@ public abstract class AbstractAnimal implements Animal {
     public void setCost(BigDecimal cost) {
 
         if (cost.intValue() < 0) {
-            throw new IllegalArgumentException("Number of animals should be positive");
+            throw new IllegalArgumentException("Price of animal should be positive");
         }
         this.cost = cost;
     }

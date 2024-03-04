@@ -63,6 +63,10 @@ public class AnimalsRepositoryTest {
         animals.add(twin);
     }
 
+    /**
+     * Тест findOlderAnimalsTest тестирует правильность работы метода
+     * findOlderAnimals
+     */
     @Test
     void findOlderAnimalsTest() {
         animalsRepository.setAnimals(animals);
@@ -73,6 +77,10 @@ public class AnimalsRepositoryTest {
         assertEquals(expected, result);
     }
 
+    /**
+     * Тест findOlderAnimalsNegativeTest тестирует работу метода
+     * findOlderAnimals при передаче ему отрицательного значения
+     */
     @Test
     void findOlderAnimalsNegativeTest() {
         animalsRepository.setAnimals(animals);
@@ -85,6 +93,10 @@ public class AnimalsRepositoryTest {
         assertEquals("Age can't be negative", exception.getMessage());
     }
 
+    /**
+     * Тест isContainsOlderAnimalsNegativeTest тестирует работу метода
+     * isContainsOlderAnimals при передаче ему отрицательного значения
+     */
     @Test
     void isContainsOlderAnimalsNegativeTest() {
         animalsRepository.setAnimals(animals);
@@ -97,6 +109,10 @@ public class AnimalsRepositoryTest {
         assertEquals("Age can't be negative", exception.getMessage());
     }
 
+    /**
+     * Тест findDuplicatesTest тестирует правильность работы метода
+     * findDuplicates
+     */
     @Test
     void findDuplicatesTest() {
         animalsRepository.setAnimals(animals);
@@ -108,6 +124,10 @@ public class AnimalsRepositoryTest {
         assertEquals(expected, result);
     }
 
+    /**
+     * Тест findLeapYearNamesTest тестирует правильность работы метода
+     * findLeapYearNames
+     */
     @Test
     void findLeapYearNamesTest() {
         animalsRepository.setAnimals(animals);
