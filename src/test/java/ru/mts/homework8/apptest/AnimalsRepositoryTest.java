@@ -1,4 +1,4 @@
-package ru.mts.homework8.repository;
+package ru.mts.homework8.apptest;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -9,6 +9,7 @@ import ru.mts.homework8.domain.Cat;
 import ru.mts.homework8.domain.Parrot;
 import ru.mts.homework8.domain.abstraction.AbstractAnimal;
 import ru.mts.homework8.domain.abstraction.Animal;
+import ru.mts.homework8.repository.AnimalsRepositoryImpl;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -81,7 +82,7 @@ public class AnimalsRepositoryTest {
                     animalsRepository.findOlderAnimals(negativeAge);
                 });
 
-        assertEquals("Возраст не может быть отрицательным", exception.getMessage());
+        assertEquals("Age can't be negative", exception.getMessage());
     }
 
     @Test
@@ -93,7 +94,7 @@ public class AnimalsRepositoryTest {
                     animalsRepository.isContainsOlderAnimals(negativeAge);
                 });
 
-        assertEquals("Возраст не может быть отрицательным", exception.getMessage());
+        assertEquals("Age can't be negative", exception.getMessage());
     }
 
     @Test

@@ -23,7 +23,6 @@ public class OneRandomAnimal {
         this.factories = List.of(bearFactory, catFactory, parrotFactory, wolfFactory);
     }
 
-
     public Animal createAnimal() {
 
         AnimalFactory animalFactory = getRandomFabric(factories);

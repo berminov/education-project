@@ -67,7 +67,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     public List<Animal> findOlderAnimals(int n) {
 
         if (n < 0) {
-            throw new IllegalArgumentException("Возраст не может быть отрицательным");
+            throw new IllegalArgumentException("Age can't be negative");
         }
 
         var dateNow = LocalDate.now();
@@ -89,7 +89,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     public boolean isContainsOlderAnimals(int n) {
 
         if (n < 0) {
-            throw new IllegalArgumentException("Возраст не может быть отрицательным");
+            throw new IllegalArgumentException("Age can't be negative");
         }
 
         var now = LocalDate.now();

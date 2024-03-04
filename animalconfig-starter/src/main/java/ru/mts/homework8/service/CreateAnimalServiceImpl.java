@@ -30,7 +30,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
     public List<Animal> createAnimals(int n) {
 
         if (n < 0) {
-            throw new IllegalArgumentException("Количество должно быть больше нуля");
+            throw new IllegalArgumentException("Number of animals should be positive");
         }
 
         List<Animal> animalArray = new ArrayList<>();
