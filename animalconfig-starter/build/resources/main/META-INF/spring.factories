@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    ru.mts.homework8.config.AnimalStarterConfig
+    ru.mts.homework9.config.AnimalStarterConfig
