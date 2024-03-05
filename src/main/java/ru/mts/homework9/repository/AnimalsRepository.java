@@ -44,7 +44,13 @@ public interface AnimalsRepository {
      */
     boolean isContainsDuplicates();
 
+    /**
+     * Метод printDuplicates выводит дубликаты
+     */
     void printDuplicates();
 
+    /**
+     * Метод setAnimals устанавливает животных
+     */
     void setAnimals(Map<String, List<Animal>> animals);
 }

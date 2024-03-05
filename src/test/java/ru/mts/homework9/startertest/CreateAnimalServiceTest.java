@@ -27,7 +27,7 @@ public class CreateAnimalServiceTest {
      * createAnimals при передаче ему отрицательного значения
      */
     @Test
-    void createNegativeNumberOfAnimalTest(){
+    void createNegativeNumberOfAnimalTest() {
         int negativeAge = -10;
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> {
@@ -45,7 +45,13 @@ public class CreateAnimalServiceTest {
     void createMultipleAnimalsTest() {
         int n = 10;
         Map<String, List<Animal>> animals = createAnimalService.createAnimals(n);
-        assertEquals(n, animals.size());
+        int actualSize = 0;
+        for (Map.Entry<String, List<Animal>> entry : animals.entrySet()) {
+            for (Animal animal : entry.getValue()) {
+                actualSize++;
+            }
+        }
+        assertEquals(n, actualSize);
     }
 
     /**
@@ -53,7 +59,7 @@ public class CreateAnimalServiceTest {
      * setPrice при передаче ему отрицательного значения
      */
     @Test
-    void setNegativePriceOfAnimalTest(){
+    void setNegativePriceOfAnimalTest() {
         BigDecimal negativePrice = BigDecimal.valueOf(-10);
         Animal animal = new Cat();
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,

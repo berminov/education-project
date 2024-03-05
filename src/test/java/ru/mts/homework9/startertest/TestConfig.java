@@ -8,28 +8,28 @@ import ru.mts.homework9.factory.*;
 @TestConfiguration
 public class TestConfig {
     @Bean
-    public OneRandomAnimal oneRandomAnimalTest(){
+    public OneRandomAnimal oneRandomAnimalTest() {
         return new OneRandomAnimal(bearFactoryTest(), catFactoryTest(),
                 parrotFactoryTest(), wolfFactoryTest());
     }
 
     @Bean
-    public BearFactory bearFactoryTest(){
+    public BearFactory bearFactoryTest() {
         return new BearFactory();
     }
 
     @Bean
-    public CatFactory catFactoryTest(){
+    public CatFactory catFactoryTest() {
         return new CatFactory();
     }
 
     @Bean
-    public ParrotFactory parrotFactoryTest(){
+    public ParrotFactory parrotFactoryTest() {
         return new ParrotFactory();
     }
 
     @Bean
-    public WolfFactory wolfFactoryTest(){
+    public WolfFactory wolfFactoryTest() {
         return new WolfFactory();
     }
 }

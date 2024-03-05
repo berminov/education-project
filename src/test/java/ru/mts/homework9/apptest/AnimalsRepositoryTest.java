@@ -12,8 +12,11 @@ import ru.mts.homework9.domain.abstraction.Animal;
 import ru.mts.homework9.repository.AnimalsRepositoryImpl;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -24,7 +27,10 @@ public class AnimalsRepositoryTest {
     @Autowired
     AnimalsRepositoryImpl animalsRepository;
 
-    private final static List<Animal> animals = new ArrayList<>();
+    private final static Map<String, List<Animal>> animals = new HashMap<>();
+    private final static List<Animal> bears = new ArrayList<>();
+    private final static List<Animal> cats = new ArrayList<>();
+    private final static List<Animal> parrots = new ArrayList<>();
 
     private final static AbstractAnimal animal1 = new Bear();
 
@@ -57,10 +63,15 @@ public class AnimalsRepositoryTest {
         twin.setCharacter("Neutral");
         twin.setBreed("Orange");
 
-        animals.add(animal1);
-        animals.add(animal2);
-        animals.add(animal3);
-        animals.add(twin);
+        bears.add(animal1);
+        parrots.add(animal2);
+        cats.add(animal3);
+        cats.add(twin);
+
+        animals.put("Bear", bears);
+        animals.put("Parrot", parrots);
+        animals.put("Cat", cats);
+
     }
 
     /**
@@ -70,10 +81,10 @@ public class AnimalsRepositoryTest {
     @Test
     void findOlderAnimalsTest() {
         animalsRepository.setAnimals(animals);
-        List<Animal> expected = new ArrayList<>();
+        Map<Animal, Integer> expected = new HashMap<>();
         int age = 10;
-        expected.add(animal1);
-        List<Animal> result = animalsRepository.findOlderAnimals(age);
+        expected.put(animal1, Period.between(animal1.getBirthDate(), LocalDate.now()).getYears());
+        Map<Animal, Integer> result = animalsRepository.findOlderAnimals(age);
         assertEquals(expected, result);
     }
 
@@ -91,6 +102,20 @@ public class AnimalsRepositoryTest {
                 });
 
         assertEquals("Age can't be negative", exception.getMessage());
+    }
+
+    /**
+     * Тест findNoOlderAnimalsTest тестирует работу метода
+     * findOlderAnimals при отсутсвии животных старше заданного возраста
+     */
+    @Test
+    void findNoOlderAnimalsTest() {
+        animalsRepository.setAnimals(animals);
+        Map<Animal, Integer> expected = new HashMap<>();
+        int age = 1000;
+        expected.put(animal1, Period.between(animal1.getBirthDate(), LocalDate.now()).getYears());
+        Map<Animal, Integer> result = animalsRepository.findOlderAnimals(age);
+        assertEquals(expected, result);
     }
 
     /**
@@ -116,10 +141,10 @@ public class AnimalsRepositoryTest {
     @Test
     void findDuplicatesTest() {
         animalsRepository.setAnimals(animals);
-        List<Animal> expected = new ArrayList<>();
-        expected.add(twin);
+        Map<String, Integer> expected = new HashMap<>();
+        expected.put("Cat", 1);
 
-        List<Animal> result = animalsRepository.findDuplicates();
+        Map<String, Integer> result = animalsRepository.findDuplicates();
 
         assertEquals(expected, result);
     }
@@ -131,11 +156,11 @@ public class AnimalsRepositoryTest {
     @Test
     void findLeapYearNamesTest() {
         animalsRepository.setAnimals(animals);
-        List<String> expected = new ArrayList<>();
-        expected.add(animal1.getName());
-        expected.add(animal2.getName());
+        Map<String, LocalDate> expected = new HashMap<>();
+        expected.put("Bear Rudolph", LocalDate.of(2000, 12, 12));
+        expected.put("Parrot Ginger", LocalDate.of(2024, 12, 12));
 
-        List<String> result = animalsRepository.findLeapYearNames();
+        Map<String, LocalDate> result = animalsRepository.findLeapYearNames();
 
         assertEquals(expected, result);
     }

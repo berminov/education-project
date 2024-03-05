@@ -89,7 +89,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
             System.out.println("There are no animals older than the specified age");
             olderAnimals.put(oldestAnimal, getAgeOfAnimal(oldestAnimal));
         } else {
-            System.out.println("Animals that are older than "+ n);
+            System.out.println("Animals that are older than " + n);
         }
         return olderAnimals;
     }
