@@ -11,6 +11,7 @@ import ru.mts.homework9.domain.abstraction.AbstractAnimal;
 import ru.mts.homework9.domain.abstraction.Animal;
 import ru.mts.homework9.repository.AnimalsRepositoryImpl;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -47,21 +48,25 @@ public class AnimalsRepositoryTest {
         animal1.setName("Rudolph");
         animal1.setCharacter("Kind");
         animal1.setBreed("White");
+        animal1.setCost(BigDecimal.valueOf(10));
 
         animal2.setBirthDate(LocalDate.of(2024, 12, 12));
         animal2.setName("Ginger");
         animal2.setCharacter("Angry");
         animal2.setBreed("Black");
+        animal2.setCost(BigDecimal.valueOf(20));
 
         animal3.setBirthDate(LocalDate.of(2017, 12, 12));
         animal3.setName("Haley");
         animal3.setCharacter("Neutral");
         animal3.setBreed("Orange");
+        animal3.setCost(BigDecimal.valueOf(30));
 
         twin.setBirthDate(LocalDate.of(2017, 12, 12));
         twin.setName("Haley");
         twin.setCharacter("Neutral");
         twin.setBreed("Orange");
+        twin.setCost(BigDecimal.valueOf(30));
 
         bears.add(animal1);
         parrots.add(animal2);
@@ -141,10 +146,10 @@ public class AnimalsRepositoryTest {
     @Test
     void findDuplicatesTest() {
         animalsRepository.setAnimals(animals);
-        Map<String, Integer> expected = new HashMap<>();
-        expected.put("Cat", 1);
+        Map<String, List<Animal>> expected = new HashMap<>();
+        expected.put("Cat", List.of(twin));
 
-        Map<String, Integer> result = animalsRepository.findDuplicates();
+        Map<String, List<Animal>> result = animalsRepository.findDuplicates();
 
         assertEquals(expected, result);
     }
@@ -162,6 +167,30 @@ public class AnimalsRepositoryTest {
 
         Map<String, LocalDate> result = animalsRepository.findLeapYearNames();
 
+        assertEquals(expected, result);
+    }
+
+    /**
+     * Тест findAveragePriceTest тестирует правильность работы метода
+     * findAveragePrice
+     */
+    @Test
+    void findAveragePriceTest() {
+        animalsRepository.setAnimals(animals);
+        BigDecimal expected = new BigDecimal("22.50");
+        BigDecimal result = animalsRepository.findAveragePrice();
+        assertEquals(expected, result);
+    }
+
+    /**
+     * Тест findAverageAgeTest тестирует правильность работы метода
+     * findAverageAge
+     */
+    @Test
+    void findAverageAgeTest() {
+        animalsRepository.setAnimals(animals);
+        double expected = 8.75;
+        double result = animalsRepository.findAverageAge();
         assertEquals(expected, result);
     }
 }

@@ -1,32 +1,33 @@
 package ru.mts.homework9.repository;
 
 import org.apache.commons.lang3.StringUtils;
-import ru.mts.homework9.domain.Cat;
 import ru.mts.homework9.domain.abstraction.Animal;
 import ru.mts.homework9.service.CreateAnimalService;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     private final CreateAnimalService createAnimalService;
+    private Map<String, List<Animal>> animals;
 
     public AnimalsRepositoryImpl(CreateAnimalService createAnimalService) {
         this.createAnimalService = createAnimalService;
     }
 
-    private Map<String, List<Animal>> animals;
-
-    public void setAnimals(Map<String, List<Animal>> animals) {
-        this.animals = animals;
-    }
-
     @PostConstruct
     public void init() {
         animals = createAnimalService.createAnimals(10);
+    }
+
+    public void setAnimals(Map<String, List<Animal>> animals) {
+        this.animals = animals;
     }
 
     @Override
@@ -35,17 +36,11 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         Map<String, LocalDate> mapResult = new HashMap<>();
         String name;
 
-        for (Map.Entry<String, List<Animal>> entry : animals.entrySet()) {
-            for (Animal animal : entry.getValue()) {
-                if (isBirthDateAnimalLeapYear(animal)) {
-                    name = animal.getName();
-                    if (StringUtils.isNotBlank(name)) {
-                        mapResult.put(animal.getClass().getSimpleName() + " "
-                                + animal.getName(), animal.getBirthDate());
-                    }
-                }
-            }
-        }
+        animalsList().stream()
+                .filter(animal -> isBirthDateAnimalLeapYear(animal)
+                        && StringUtils.isNotBlank(animal.getName()))
+                .forEach(animal -> mapResult.put(animal.getClass().getSimpleName() + " "
+                        + animal.getName(), animal.getBirthDate()));
         return mapResult;
     }
 
@@ -71,23 +66,17 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         }
 
         Map<Animal, Integer> olderAnimals = new HashMap<>();
-        Animal oldestAnimal = new Cat();
 
-        oldestAnimal.setBirthDate(LocalDate.now());
+        animalsList().stream()
+                .filter(animal -> getAgeOfAnimal(animal) > n && isAnimalAndBirthDateNonNull(animal))
+                .forEach(animal -> olderAnimals.put(animal, getAgeOfAnimal(animal)));
 
-        for (Map.Entry<String, List<Animal>> entry : animals.entrySet()) {
-            for (Animal animal : entry.getValue()) {
-                if (isAnimalAndBirthDateNonNull(animal) && n < getAgeOfAnimal(animal)) {
-                    olderAnimals.put(animal, getAgeOfAnimal(animal));
-                }
-                if (getAgeOfAnimal(animal) > getAgeOfAnimal(oldestAnimal)) {
-                    oldestAnimal = animal;
-                }
-            }
-        }
         if (olderAnimals.isEmpty()) {
-            System.out.println("There are no animals older than the specified age");
-            olderAnimals.put(oldestAnimal, getAgeOfAnimal(oldestAnimal));
+            System.out.println("There are no animals older than the specified age, the oldest one is ");
+
+            Optional<Animal> oldestAnimal = animalsList().stream()
+                    .min(Comparator.comparing(Animal::getBirthDate));
+            oldestAnimal.ifPresent(animal -> olderAnimals.put(animal, getAgeOfAnimal(animal)));
         } else {
             System.out.println("Animals that are older than " + n);
         }
@@ -106,17 +95,11 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         }
 
         Map<Animal, Integer> olderAnimals = new HashMap<>();
-        var dateNow = LocalDate.now();
 
-        for (Map.Entry<String, List<Animal>> entry : animals.entrySet()) {
-            for (Animal animal : entry.getValue()) {
-                int age = Period.between(animal.getBirthDate(), dateNow).getYears();
-                if (isAnimalAndBirthDateNonNull(animal) && n < age) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        animalsList().stream()
+                .filter(animal -> getAgeOfAnimal(animal) > n && isAnimalAndBirthDateNonNull(animal))
+                .forEach(animal -> olderAnimals.put(animal, getAgeOfAnimal(animal)));
+        return olderAnimals.isEmpty();
     }
 
     @Override
@@ -125,46 +108,33 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     }
 
     @Override
-    public Map<String, Integer> findDuplicates() {
-
-        Map<String, Integer> duplicatesMap = new HashMap<>();
+    public Map<String, List<Animal>> findDuplicates() {
 
         Set<Animal> uniqueAnimals = new HashSet<>();
-        Set<Animal> duplicatesList = new LinkedHashSet<>();
+        List<Animal> duplicatesList = new ArrayList<>();
 
-        for (Map.Entry<String, List<Animal>> entry : animals.entrySet()) {
-            for (Animal animal : entry.getValue()) {
-                if (uniqueAnimals.contains(animal)) {
-                    duplicatesList.add(animal);
-                } else {
-                    uniqueAnimals.add(animal);
-                }
-            }
-        }
-
-        for (Animal animal : duplicatesList) {
-            String animalType = animal.getClass().getSimpleName();
-            if (duplicatesMap.containsKey(animalType)) {
-                duplicatesMap.put(animalType, duplicatesMap.get(animalType) + 1);
+        for (Animal animal : animalsList()) {
+            if (uniqueAnimals.contains(animal)) {
+                duplicatesList.add(animal);
             } else {
-                duplicatesMap.put(animalType, 1);
+                uniqueAnimals.add(animal);
             }
         }
 
-        return new HashMap<>(duplicatesMap);
+        Map<String, List<Animal>> duplicates = duplicatesList.stream()
+                .collect(Collectors.groupingBy(animal -> animal.getClass().getSimpleName()));
+
+        return new HashMap<>(duplicates);
     }
 
     @Override
     public boolean isContainsDuplicates() {
         Set<Animal> uniqueAnimals = new HashSet<>();
-
-        for (Map.Entry<String, List<Animal>> entry : animals.entrySet()) {
-            for (Animal animal : entry.getValue()) {
-                if (uniqueAnimals.contains(animal)) {
-                    return true;
-                } else {
-                    uniqueAnimals.add(animal);
-                }
+        for (Animal animal : animalsList()) {
+            if (uniqueAnimals.contains(animal)) {
+                return true;
+            } else {
+                uniqueAnimals.add(animal);
             }
         }
         return false;
@@ -173,5 +143,46 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     private boolean isAnimalAndBirthDateNonNull(Animal animal) {
         return Objects.nonNull(animal)
                 && Objects.nonNull(animal.getBirthDate());
+    }
+
+    private List<Animal> animalsList() {
+        List<List<Animal>> listOfLists = new ArrayList<>(animals.values());
+        return listOfLists.stream()
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public double findAverageAge() {
+        return animalsList().stream()
+                .mapToDouble(AnimalsRepositoryImpl::getAgeOfAnimal)
+                .average()
+                .orElse(0.0);
+    }
+
+    @Override
+    public BigDecimal findAveragePrice() {
+        return animalsList().stream()
+                .map(Animal::getCost)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .divide(BigDecimal.valueOf(animalsList().size()), 2, RoundingMode.HALF_UP);
+    }
+
+    @Override
+    public List<Animal> findOldAndExpensive() {
+        return animalsList().stream()
+                .filter(animal -> getAgeOfAnimal(animal) > 5 && animal.getCost().compareTo(findAveragePrice()) > 0)
+                .sorted(Comparator.comparing(Animal::getBirthDate))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findMinConstAnimals() {
+        return animalsList().stream()
+                .sorted(Comparator.comparing(Animal::getCost))
+                .limit(3)
+                .map(Animal::getName)
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
     }
 }

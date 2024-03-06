@@ -30,7 +30,7 @@ public class ScheduledTasks {
             System.out.println(leapYearNames);
         }
 
-        int age = 5;
+        int age = 10;
         Map<Animal, Integer> olderAnimals = animalsRepository.findOlderAnimals(age);
         System.out.println(olderAnimals);
 
@@ -40,5 +40,9 @@ public class ScheduledTasks {
         } else {
             System.out.println("No duplicates");
         }
+
+        System.out.println("Average age of all animals is " + animalsRepository.findAverageAge());
+        System.out.println("Old and expensive animals " + animalsRepository.findOldAndExpensive());
+        System.out.println("The three cheapest animals " + animalsRepository.findMinConstAnimals());
     }
 }
