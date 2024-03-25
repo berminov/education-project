@@ -25,11 +25,9 @@ public class OneRandomAnimal {
     }
 
     public Animal createAnimal() {
-
-        AnimalFactory animalFactory = getRandomFabric(factories);
+        var animalFactory = getRandomFabric(factories);
 
         Animal animal = animalFactory.createAnimal();
-
         animal.setBirthDate(RandomDateProvider.createRandomDate());
         animal.setCost(BigDecimal.valueOf(Math.random() * 1000).setScale(2, RoundingMode.HALF_UP));
         animal.setCharacter(CharacterType.randomCharacter());
@@ -39,8 +37,10 @@ public class OneRandomAnimal {
     }
 
     public static AnimalFactory getRandomFabric(List<AnimalFactory> factories) {
-        Random random = new Random();
+        var random = new Random();
         int randomIndex = random.nextInt(factories.size());
+
         return factories.get(randomIndex);
     }
+
 }

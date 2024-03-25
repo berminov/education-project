@@ -1,5 +1,6 @@
 package ru.mts.homework11.config;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -12,9 +13,11 @@ import ru.mts.homework11.service.CreateAnimalServiceImpl;
 @EnableAutoConfiguration
 @EnableConfigurationProperties(AnimalProperties.class)
 public class AnimalStarterConfig {
+
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     @Bean
-    @Scope("prototype")
     public CreateAnimalService createAnimalService() {
         return new CreateAnimalServiceImpl();
     }
+
 }

@@ -1,6 +1,7 @@
 package ru.mts.homework11.exceptions;
 
 public class AnimalsArraySizeException extends Exception {
+
     public AnimalsArraySizeException() {
     }
 
@@ -19,4 +20,5 @@ public class AnimalsArraySizeException extends Exception {
     public AnimalsArraySizeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
+
 }

@@ -28,6 +28,7 @@ public class AnimalsRepositoryTest {
     @Autowired
     AnimalsRepositoryImpl animalsRepository;
 
+    // это точно все должно быть глобальными полями на уровне класса ?
     private final static Map<String, List<Animal>> animals = new HashMap<>();
     private final static List<Animal> bears = new ArrayList<>();
     private final static List<Animal> cats = new ArrayList<>();
@@ -43,7 +44,6 @@ public class AnimalsRepositoryTest {
 
     @BeforeAll
     public static void arrayCreation() {
-
         animal1.setBirthDate(LocalDate.of(2000, 12, 12));
         animal1.setName("Rudolph");
         animal1.setCharacter("Kind");
@@ -76,7 +76,6 @@ public class AnimalsRepositoryTest {
         animals.put("Bear", bears);
         animals.put("Parrot", parrots);
         animals.put("Cat", cats);
-
     }
 
     /**
@@ -86,10 +85,13 @@ public class AnimalsRepositoryTest {
     @Test
     void findOlderAnimalsTest() {
         animalsRepository.setAnimals(animals);
-        Map<Animal, Integer> expected = new HashMap<>();
+        Map<Animal, Integer> expected = Map.of(
+                animal1, Period.between(animal1.getBirthDate(), LocalDate.now()).getYears()
+        );
+
         int age = 10;
-        expected.put(animal1, Period.between(animal1.getBirthDate(), LocalDate.now()).getYears());
         Map<Animal, Integer> result = animalsRepository.findOlderAnimals(age);
+
         assertEquals(expected, result);
     }
 
@@ -101,10 +103,9 @@ public class AnimalsRepositoryTest {
     void findOlderAnimalsNegativeTest() {
         animalsRepository.setAnimals(animals);
         int negativeAge = -10;
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> {
-                    animalsRepository.findOlderAnimals(negativeAge);
-                });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class, () -> animalsRepository.findOlderAnimals(negativeAge)
+        );
 
         assertEquals("Age can't be negative", exception.getMessage());
     }
@@ -116,10 +117,13 @@ public class AnimalsRepositoryTest {
     @Test
     void findNoOlderAnimalsTest() {
         animalsRepository.setAnimals(animals);
-        Map<Animal, Integer> expected = new HashMap<>();
+        Map<Animal, Integer> expected = Map.of(
+                animal1, Period.between(animal1.getBirthDate(), LocalDate.now()).getYears()
+        );
+
         int age = 1000;
-        expected.put(animal1, Period.between(animal1.getBirthDate(), LocalDate.now()).getYears());
-        Map<Animal, Integer> result = animalsRepository.findOlderAnimals(age);
+        var result = animalsRepository.findOlderAnimals(age);
+
         assertEquals(expected, result);
     }
 
@@ -131,10 +135,9 @@ public class AnimalsRepositoryTest {
     void isContainsOlderAnimalsNegativeTest() {
         animalsRepository.setAnimals(animals);
         int negativeAge = -10;
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> {
-                    animalsRepository.isContainsOlderAnimals(negativeAge);
-                });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class, () -> animalsRepository.isContainsOlderAnimals(negativeAge)
+        );
 
         assertEquals("Age can't be negative", exception.getMessage());
     }
@@ -146,9 +149,7 @@ public class AnimalsRepositoryTest {
     @Test
     void findDuplicatesTest() {
         animalsRepository.setAnimals(animals);
-        Map<String, List<Animal>> expected = new HashMap<>();
-        expected.put("Cat", List.of(twin));
-
+        Map<String, List<Animal>> expected = Map.of("Cat", List.of(twin));
         Map<String, List<Animal>> result = animalsRepository.findDuplicates();
 
         assertEquals(expected, result);
@@ -161,9 +162,10 @@ public class AnimalsRepositoryTest {
     @Test
     void findLeapYearNamesTest() {
         animalsRepository.setAnimals(animals);
-        Map<String, LocalDate> expected = new HashMap<>();
-        expected.put("Bear Rudolph", LocalDate.of(2000, 12, 12));
-        expected.put("Parrot Ginger", LocalDate.of(2024, 12, 12));
+        Map<String, LocalDate> expected = Map.of(
+                "Bear Rudolph", LocalDate.of(2000, 12, 12),
+                "Parrot Ginger", LocalDate.of(2024, 12, 12)
+        );
 
         Map<String, LocalDate> result = animalsRepository.findLeapYearNames();
 
@@ -177,8 +179,10 @@ public class AnimalsRepositoryTest {
     @Test
     void findAveragePriceTest() {
         animalsRepository.setAnimals(animals);
-        BigDecimal expected = new BigDecimal("22.50");
-        BigDecimal result = animalsRepository.findAveragePrice();
+        var expected = new BigDecimal("22.50");
+        var result = animalsRepository.findAveragePrice();
+
+        // а так вообще корректно сравнивать BigDecimal ?
         assertEquals(expected, result);
     }
 
@@ -191,6 +195,8 @@ public class AnimalsRepositoryTest {
         animalsRepository.setAnimals(animals);
         double expected = 8.75;
         double result = animalsRepository.findAverageAge();
+
         assertEquals(expected, result);
     }
+
 }

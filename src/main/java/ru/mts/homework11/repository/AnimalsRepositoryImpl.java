@@ -13,6 +13,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class AnimalsRepositoryImpl implements AnimalsRepository {
@@ -29,22 +30,22 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         animals = createAnimalService.createAnimals(10);
     }
 
+    @Override
     public void setAnimals(Map<String, List<Animal>> animals) {
         this.animals = animals;
     }
 
     @Override
     public Map<String, LocalDate> findLeapYearNames() {
+        var animals = collectAnimals();
 
-        Map<String, LocalDate> mapResult = new HashMap<>();
-        String name;
-
-        animalsList().stream()
-                .filter(animal -> isBirthDateAnimalLeapYear(animal)
-                        && StringUtils.isNotBlank(animal.getName()))
-                .forEach(animal -> mapResult.put(animal.getClass().getSimpleName() + " "
-                        + animal.getName(), animal.getBirthDate()));
-        return mapResult;
+        return animals.stream()
+                .filter(a -> isBirthDateAnimalLeapYear(a)
+                        && StringUtils.isNotBlank(a.getName()))
+                .collect(Collectors.toUnmodifiableMap(
+                        a -> a.getClass().getSimpleName() + " " + a.getName(),
+                        Animal::getBirthDate)
+                );
     }
 
     @Override
@@ -63,26 +64,33 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     @Override
     public Map<Animal, Integer> findOlderAnimals(int n) {
-
         if (n < 0) {
             throw new AgeException("Age can't be negative");
         }
 
-        Map<Animal, Integer> olderAnimals = new HashMap<>();
-
-        animalsList().stream()
-                .filter(animal -> getAgeOfAnimal(animal) > n && isAnimalAndBirthDateNonNull(animal))
-                .forEach(animal -> olderAnimals.put(animal, getAgeOfAnimal(animal)));
+        var animals = collectAnimals();
+        var olderAnimals = animals.stream()
+                .filter(a -> getAgeOfAnimal(a) > n && isAnimalAndBirthDateNonNull(a))
+                .collect(Collectors.toUnmodifiableMap(
+                        Function.identity(),
+                        AnimalsRepositoryImpl::getAgeOfAnimal)
+                );
 
         if (olderAnimals.isEmpty()) {
             System.out.println("There are no animals older than the specified age, the oldest one is ");
 
-            Optional<Animal> oldestAnimal = animalsList().stream()
-                    .min(Comparator.comparing(Animal::getBirthDate));
-            oldestAnimal.ifPresent(animal -> olderAnimals.put(animal, getAgeOfAnimal(animal)));
+
+            // try 2 ?)
+            animals = collectAnimals();
+            olderAnimals = animals.stream()
+                    .min(Comparator.comparing(Animal::getBirthDate))
+                    .map(a -> Collections.singletonMap(a, getAgeOfAnimal(a)))
+                    .orElse(Collections.emptyMap());
+
         } else {
             System.out.println("Animals that are older than " + n);
         }
+
         return olderAnimals;
     }
 
@@ -96,18 +104,19 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     }
 
     @Override
-    public boolean isContainsOlderAnimals(int n) {
-
+    public boolean isContainsOlderAnimals(final int n) {
         if (n < 0) {
             throw new AgeException("Age can't be negative");
         }
 
-        Map<Animal, Integer> olderAnimals = new HashMap<>();
+        var animals = collectAnimals();
 
-        animalsList().stream()
-                .filter(animal -> getAgeOfAnimal(animal) > n && isAnimalAndBirthDateNonNull(animal))
-                .forEach(animal -> olderAnimals.put(animal, getAgeOfAnimal(animal)));
-        return olderAnimals.isEmpty();
+        return animals.stream()
+                .filter(a -> getAgeOfAnimal(a) > n && isAnimalAndBirthDateNonNull(a))
+                .collect(Collectors.toUnmodifiableMap(
+                        Function.identity(),
+                        AnimalsRepositoryImpl::getAgeOfAnimal))
+                .isEmpty();
     }
 
     @Override
@@ -117,11 +126,10 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     @Override
     public Map<String, List<Animal>> findDuplicates() {
-
         Set<Animal> uniqueAnimals = new HashSet<>();
         List<Animal> duplicatesList = new ArrayList<>();
 
-        for (Animal animal : animalsList()) {
+        for (Animal animal : collectAnimals()) {
             if (uniqueAnimals.contains(animal)) {
                 duplicatesList.add(animal);
             } else {
@@ -129,27 +137,25 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
             }
         }
 
-        Map<String, List<Animal>> duplicates = duplicatesList.stream()
-                .collect(Collectors.groupingBy(animal -> animal.getClass().getSimpleName()));
-
-        return new HashMap<>(duplicates);
+        return duplicatesList.stream()
+                .collect(Collectors.groupingBy(a -> a.getClass().getSimpleName()));
     }
 
     @Override
     public boolean isContainsDuplicates() {
         Set<Animal> uniqueAnimals = new HashSet<>();
-        for (Animal animal : animalsList()) {
+        for (Animal animal : collectAnimals()) {
             if (uniqueAnimals.contains(animal)) {
                 return true;
             } else {
                 uniqueAnimals.add(animal);
             }
         }
+
         return false;
     }
 
     private boolean isAnimalAndBirthDateNonNull(Animal animal) {
-
         if (Objects.isNull(animal)) {
             throw new AnimalNullException("Animal doesn't exist");
         }
@@ -157,16 +163,18 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         return Objects.nonNull(animal.getBirthDate());
     }
 
-    private List<Animal> animalsList() {
-        List<List<Animal>> listOfLists = new ArrayList<>(animals.values());
-        return listOfLists.stream()
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
+    private List<Animal> collectAnimals() {
+        return animals.values()
+                .stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
     public double findAverageAge() {
-        return animalsList().stream()
+        var animals = collectAnimals();
+
+        return animals.stream()
                 .mapToDouble(AnimalsRepositoryImpl::getAgeOfAnimal)
                 .average()
                 .orElse(0.0);
@@ -174,30 +182,35 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     @Override
     public BigDecimal findAveragePrice() {
-        return animalsList().stream()
+        var animals = collectAnimals();
+
+        return animals.stream()
                 .map(Animal::getCost)
+                .filter(Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .divide(BigDecimal.valueOf(animalsList().size()), 2, RoundingMode.HALF_UP);
+                .divide(BigDecimal.valueOf(animals.size()), 2, RoundingMode.HALF_UP);
     }
 
     @Override
     public List<Animal> findOldAndExpensive() {
-        return animalsList().stream()
-                .filter(animal -> getAgeOfAnimal(animal) > 5 && animal.getCost().compareTo(findAveragePrice()) > 0)
+        return collectAnimals().stream()
+                .filter(a -> getAgeOfAnimal(a) > 5 && a.getCost().compareTo(findAveragePrice()) > 0)
                 .sorted(Comparator.comparing(Animal::getBirthDate))
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
     public List<String> findMinConstAnimals() throws AnimalsArraySizeException {
-        if (animalsList().size() < 3) {
+        if (collectAnimals().size() < 3) {
             throw new AnimalsArraySizeException("The size of animalsList is less than 3");
         }
-        return animalsList().stream()
+
+        return collectAnimals().stream()
                 .sorted(Comparator.comparing(Animal::getCost))
                 .limit(3)
                 .map(Animal::getName)
                 .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
     }
+
 }

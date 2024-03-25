@@ -7,10 +7,12 @@ import ru.mts.homework11.factory.*;
 
 @TestConfiguration
 public class TestConfig {
+
     @Bean
     public OneRandomAnimal oneRandomAnimalTest() {
-        return new OneRandomAnimal(bearFactoryTest(), catFactoryTest(),
-                parrotFactoryTest(), wolfFactoryTest());
+        return new OneRandomAnimal(
+                bearFactoryTest(), catFactoryTest(), parrotFactoryTest(), wolfFactoryTest()
+        );
     }
 
     @Bean

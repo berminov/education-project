@@ -8,4 +8,5 @@ public class AnimalNullException extends NullPointerException {
     public AnimalNullException(String s) {
         super(s);
     }
+
 }

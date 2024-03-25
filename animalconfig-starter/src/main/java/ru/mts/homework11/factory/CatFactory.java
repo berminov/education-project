@@ -17,8 +17,10 @@ public class CatFactory implements AnimalFactory {
 
     @Override
     public Cat createAnimal() {
-        Cat cat = new Cat();
+        var cat = new Cat();
         cat.setName(RandomNameProvider.chooseRandomName(animalProperties.getCatNames()));
+
         return cat;
     }
+
 }

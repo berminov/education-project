@@ -1,6 +1,7 @@
 package ru.mts.homework11.exceptions;
 
 public class AgeException extends IllegalArgumentException{
+
     public AgeException() {
     }
 
@@ -15,4 +16,5 @@ public class AgeException extends IllegalArgumentException{
     public AgeException(Throwable cause) {
         super(cause);
     }
+
 }

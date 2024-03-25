@@ -17,8 +17,10 @@ public class WolfFactory implements AnimalFactory {
 
     @Override
     public Wolf createAnimal() {
-        Wolf wolf = new Wolf();
+        var wolf = new Wolf();
         wolf.setName(RandomNameProvider.chooseRandomName(animalProperties.getWolfNames()));
+
         return wolf;
     }
+
 }

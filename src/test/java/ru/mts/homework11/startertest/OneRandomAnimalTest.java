@@ -33,6 +33,8 @@ public class OneRandomAnimalTest {
                 return true;
             }
         }
+
         return false;
     }
+
 }

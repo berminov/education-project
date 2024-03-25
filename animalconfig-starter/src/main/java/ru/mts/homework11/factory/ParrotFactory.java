@@ -9,6 +9,7 @@ import ru.mts.homework11.domain.Parrot;
 public class ParrotFactory implements AnimalFactory {
 
     private AnimalProperties animalProperties;
+
     @Autowired
     public void setAnimalProperties(AnimalProperties animalProperties) {
         this.animalProperties = animalProperties;
@@ -16,8 +17,9 @@ public class ParrotFactory implements AnimalFactory {
 
     @Override
     public Parrot createAnimal() {
-        Parrot parrot = new Parrot();
+        var parrot = new Parrot();
         parrot.setName(RandomNameProvider.chooseRandomName(animalProperties.getParrotNames()));
+
         return parrot;
     }
 }

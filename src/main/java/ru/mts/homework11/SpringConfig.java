@@ -15,4 +15,5 @@ public class SpringConfig {
     public AnimalsRepository animalsRepository(CreateAnimalService createAnimalService) {
         return new AnimalsRepositoryImpl(createAnimalService);
     }
+
 }

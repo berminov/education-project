@@ -5,7 +5,6 @@ import ru.mts.homework11.domain.abstraction.Animal;
 import ru.mts.homework11.factory.OneRandomAnimal;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,10 +18,12 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         this.oneRandomAnimal = oneRandomAnimal;
     }
 
+    @Override
     public String getAnimalType() {
         return animalType;
     }
 
+    @Override
     public void setAnimalType(String animalType) {
         this.animalType = animalType;
     }
@@ -30,43 +31,44 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
     /**
      * Метод createNAnimal создаёт n уникальных животных
      */
+    @Override
     public Map<String, List<Animal>> createAnimals(int n) {
-
         if (n < 0) {
             throw new IllegalArgumentException("Number of animals should be positive");
         }
 
-        List<Animal> animalArray = new ArrayList<>();
+        List<Animal> bears = new ArrayList<>();
+        List<Animal> cats = new ArrayList<>();
+        List<Animal> parrots = new ArrayList<>();
+        List<Animal> wolfs = new ArrayList<>();
 
-        List<Animal> bearList = new ArrayList<>();
-        List<Animal> catList = new ArrayList<>();
-        List<Animal> parrotList = new ArrayList<>();
-        List<Animal> wolfList = new ArrayList<>();
-
-        Map<String, List<Animal>> animalMap = new HashMap<>();
+        Animal animal;
         for (int i = 0; i < n; i++) {
-            Animal animal = oneRandomAnimal.createAnimal();
+            animal = oneRandomAnimal.createAnimal();
+
             switch (animal.getClass().getSimpleName()) {
                 case "Bear":
-                    bearList.add(animal);
+                    bears.add(animal);
                     break;
                 case "Cat":
-                    catList.add(animal);
+                    cats.add(animal);
                     break;
                 case "Parrot":
-                    parrotList.add(animal);
+                    parrots.add(animal);
                     break;
                 case "Wolf":
-                    wolfList.add(animal);
+                    wolfs.add(animal);
                     break;
             }
+
         }
 
-        animalMap.put("Bear", bearList);
-        animalMap.put("Cat", catList);
-        animalMap.put("Parrot", parrotList);
-        animalMap.put("Wolf", wolfList);
-
-        return animalMap;
+        return Map.of(
+                "Bear", bears,
+                "Cat", cats,
+                "Parrot", parrots,
+                "Wolf", wolfs
+        );
     }
+
 }

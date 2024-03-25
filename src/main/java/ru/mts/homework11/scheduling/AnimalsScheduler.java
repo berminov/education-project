@@ -1,44 +1,45 @@
-package ru.mts.homework11;
+package ru.mts.homework11.scheduling;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import ru.mts.homework11.domain.abstraction.Animal;
 import ru.mts.homework11.exceptions.AgeException;
 import ru.mts.homework11.exceptions.AnimalNullException;
 import ru.mts.homework11.exceptions.AnimalsArraySizeException;
 import ru.mts.homework11.repository.AnimalsRepository;
 
-import java.time.LocalDate;
-import java.util.Map;
+@Component(AnimalsSchedulerMBean.NAME)
+public class AnimalsScheduler implements AnimalsSchedulerMBean {
 
-@Component
-public class ScheduledTasks {
+    private static final Logger log = LoggerFactory.getLogger(AnimalsScheduler.class);
 
-    private AnimalsRepository animalsRepository;
+    private final AnimalsRepository animalsRepository;
 
     @Autowired
-    public void setAnimalsRepository(AnimalsRepository animalsRepository) {
+    public AnimalsScheduler(AnimalsRepository animalsRepository) {
         this.animalsRepository = animalsRepository;
     }
 
-    @Scheduled(fixedRate = 60000)
-    public void animalTasks() {
+    @Scheduled(fixedRate = 60_000)
+    public String executeTask() {
         try {
-            Map<String, LocalDate> leapYearNames = animalsRepository.findLeapYearNames();
+            var leapYearNames = animalsRepository.findLeapYearNames();
             if (leapYearNames.isEmpty()) {
-                System.out.println("No animals with leap years' birthdays");
+                log.info("No animals with leap years' birthdays");
             } else {
                 System.out.println("Names of animals with leap years' birthdays");
                 System.out.println(leapYearNames);
             }
+
         } catch (AnimalNullException e) {
             System.out.println(e.getMessage());
         }
 
         try {
             int age = 10;
-            Map<Animal, Integer> olderAnimals = animalsRepository.findOlderAnimals(age);
+            var olderAnimals = animalsRepository.findOlderAnimals(age);
             System.out.println(olderAnimals);
 
             if (animalsRepository.isContainsDuplicates()) {
@@ -47,6 +48,7 @@ public class ScheduledTasks {
             } else {
                 System.out.println("No duplicates");
             }
+
         } catch (AgeException e) {
             System.out.println(e.getMessage());
         }
@@ -59,5 +61,8 @@ public class ScheduledTasks {
         } catch (AnimalsArraySizeException e) {
             System.out.println(e.getMessage());
         }
+
+        return "Execution successfully finished!";
     }
+
 }

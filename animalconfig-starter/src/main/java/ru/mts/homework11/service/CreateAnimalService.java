@@ -16,4 +16,5 @@ public interface CreateAnimalService {
      */
 
     Map<String, List<Animal>> createAnimals(int n);
+
 }

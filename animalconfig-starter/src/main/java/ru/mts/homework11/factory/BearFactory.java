@@ -17,8 +17,10 @@ public class BearFactory implements AnimalFactory {
 
     @Override
     public Bear createAnimal() {
-        Bear bear = new Bear();
+        var bear = new Bear();
         bear.setName(RandomNameProvider.chooseRandomName(animalProperties.getBearNames()));
+
         return bear;
     }
+
 }

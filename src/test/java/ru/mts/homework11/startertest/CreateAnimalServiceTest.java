@@ -9,8 +9,6 @@ import ru.mts.homework11.domain.abstraction.Animal;
 import ru.mts.homework11.service.CreateAnimalServiceImpl;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -29,10 +27,10 @@ public class CreateAnimalServiceTest {
     @Test
     void createNegativeNumberOfAnimalTest() {
         int negativeAge = -10;
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> {
-                    createAnimalService.createAnimals(negativeAge);
-                });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> createAnimalService.createAnimals(negativeAge)
+        );
 
         assertEquals("Number of animals should be positive", exception.getMessage());
     }
@@ -44,13 +42,10 @@ public class CreateAnimalServiceTest {
     @Test
     void createMultipleAnimalsTest() {
         int n = 10;
-        Map<String, List<Animal>> animals = createAnimalService.createAnimals(n);
-        int actualSize = 0;
-        for (Map.Entry<String, List<Animal>> entry : animals.entrySet()) {
-            for (Animal animal : entry.getValue()) {
-                actualSize++;
-            }
-        }
+        var animals = createAnimalService.createAnimals(n);
+        var entrySet = animals.entrySet();
+        int actualSize = entrySet.size();
+
         assertEquals(n, actualSize);
     }
 
@@ -60,14 +55,14 @@ public class CreateAnimalServiceTest {
      */
     @Test
     void setNegativePriceOfAnimalTest() {
-        BigDecimal negativePrice = BigDecimal.valueOf(-10);
+        var negativePrice = BigDecimal.valueOf(-10);
         Animal animal = new Cat();
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> {
-                    animal.setCost(negativePrice);
-                });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> animal.setCost(negativePrice)
+        );
 
         assertEquals("Price of animal should be positive", exception.getMessage());
     }
-}
 
+}
