@@ -1,0 +1,18 @@
+animal:
+  names:
+    bearNames:
+      - bear1
+      - bear2
+      - bear3
+    catNames:
+      - cat1
+      - cat2
+      - cat3
+    parrotNames:
+      - parrot1
+      - parrot2
+      - parrot3
+    wolfNames:
+      - wolf1
+      - wolf2
+      - wolf3

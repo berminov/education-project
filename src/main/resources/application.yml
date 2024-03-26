@@ -1,0 +1,18 @@
+animal:
+  names:
+    bearNames:
+      - Michael
+      - Steve
+      - Henry
+    catNames:
+      - Vasya
+      - Alisa
+      - Lilu
+    parrotNames:
+      - Kesha
+      - Tom
+      - Jerry
+    wolfNames:
+      - Woofy
+      - Bitty
+      - Leo
