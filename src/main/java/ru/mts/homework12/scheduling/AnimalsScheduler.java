@@ -32,20 +32,19 @@ public class AnimalsScheduler implements AnimalsSchedulerMBean {
     @PostConstruct
     public void init() {
 
-//        scheduledThreads.scheduleAtFixedRate(() -> {
-//            Thread.currentThread().setName("printDuplicateThread");
-//
-//            if (animalsRepository.isContainsDuplicates()) {
-//
-//                log.info("Thread: " + Thread.currentThread().getName() + " duplicates:");
-//                animalsRepository.printDuplicates();
-//                System.out.println("HEELLLLOOOO");
-//
-//            } else {
-//                log.info("Thread: " + Thread.currentThread().getName() + " no duplicates");
-//            }
-//
-//        }, 0, 10, TimeUnit.SECONDS);
+        scheduledThreads.scheduleAtFixedRate(() -> {
+            Thread.currentThread().setName("printDuplicateThread");
+
+            if (animalsRepository.isContainsDuplicates()) {
+
+                log.info("Thread: " + Thread.currentThread().getName() + " duplicates:");
+                animalsRepository.printDuplicates();
+
+            } else {
+                log.info("Thread: " + Thread.currentThread().getName() + " no duplicates");
+            }
+
+        }, 0, 10, TimeUnit.SECONDS);
 
         scheduledThreads.scheduleAtFixedRate(() -> {
             Thread.currentThread().setName("findAverageAgeThread");
@@ -74,17 +73,6 @@ public class AnimalsScheduler implements AnimalsSchedulerMBean {
             int age = 10;
             var olderAnimals = animalsRepository.findOlderAnimals(age);
             System.out.println(olderAnimals);
-
-
-
-            if (animalsRepository.isContainsDuplicates()) {
-                System.out.println("Duplicates");
-                animalsRepository.printDuplicates();
-            } else {
-                System.out.println("No duplicates");
-            }
-
-
 
         } catch (AgeException e) {
             System.out.println(e.getMessage());

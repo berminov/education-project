@@ -46,7 +46,8 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                         && StringUtils.isNotBlank(a.getName()))
                 .collect(Collectors.toConcurrentMap(
                         a -> a.getClass().getSimpleName() + " " + a.getName(),
-                        Animal::getBirthDate)
+                        Animal::getBirthDate,
+                        (existing, replacement) -> existing)
                 );
     }
 
@@ -75,15 +76,17 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .filter(a -> getAgeOfAnimal(a) > n && isAnimalAndBirthDateNonNull(a))
                 .collect(Collectors.toConcurrentMap(
                         Function.identity(),
-                        AnimalsRepositoryImpl::getAgeOfAnimal)
+                        AnimalsRepositoryImpl::getAgeOfAnimal,
+                        (existing, replacement) -> existing)
                 );
 
         if (olderAnimals.isEmpty()) {
             System.out.println("There are no animals older than the specified age, the oldest one is ");
 
-            Optional<Animal> oldestAnimal = animals.stream()
-                    .min(Comparator.comparing(Animal::getBirthDate));
-            oldestAnimal.ifPresent(animal -> olderAnimals.put(animal, getAgeOfAnimal(animal)));
+            olderAnimals = (ConcurrentMap<Animal, Integer>) animals.stream()
+                    .min(Comparator.comparing(Animal::getBirthDate))
+                    .map(a -> Collections.singletonMap(a, getAgeOfAnimal(a)))
+                    .orElse(Collections.emptyMap());
 
         } else {
             System.out.println("Animals that are older than " + n);

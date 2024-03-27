@@ -125,7 +125,7 @@ public class AnimalsRepositoryTest {
         int age = 1000;
         var result = animalsRepository.findOlderAnimals(age);
 
-        assertEquals((ConcurrentMap)expected, result);
+        assertEquals((ConcurrentMap) expected, result);
     }
 
     /**
